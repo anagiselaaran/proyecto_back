@@ -11,3 +11,5 @@ const pool = mysql.createPool({
 
 // variable global para usar sobre las queries
 global.db = pool.promise();
+
+
