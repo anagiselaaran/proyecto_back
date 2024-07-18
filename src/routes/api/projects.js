@@ -7,12 +7,9 @@ const router = require("express").Router();
 router.get("/", getProjects);
 router.get("/:ProjectId", getById);
 router.get("/user-projects/:userId", getByUserId);
-// router.get("/email/:email", getByEmail );
-
-
 
 // POST
-router.post("/new",  createProject);
+router.post("/new", createProject);
 
 // PUT
 router.put("/edit/:projectId", updateProject);
