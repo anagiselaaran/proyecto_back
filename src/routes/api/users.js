@@ -1,4 +1,4 @@
-const { getUsers, createUser, updateUser } = require('../../controllers/user.controller');
+const { getUsers, createUser, updateUser, deleteUser } = require('../../controllers/user.controller');
 
 const router = require('express').Router();
 
@@ -9,7 +9,7 @@ router.post('/new', createUser);
 
 router.put('/edit/:userId', updateUser);
 
-/* router.delete('/:userid', deleteUser); */
+router.delete('/:userId', deleteUser);
 
 
 
