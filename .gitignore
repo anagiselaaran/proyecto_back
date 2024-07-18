@@ -1,4 +1,5 @@
 node_modules/
 .env
+peticiones.rest
 .vscode
 time_requests.rest

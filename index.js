@@ -11,6 +11,9 @@ require("./src/config/db");
 // Server creation
 const server = http.createServer(app);
 
+// config base de datos
+require('./src/config/db');
+
 const PORT = process.env.PORT || 3000;
 server.listen(PORT);
 
