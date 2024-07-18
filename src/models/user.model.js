@@ -4,21 +4,25 @@ const selectAll = () => {
     return db.query('select * from users')
 }
 //seleccionar usuario por id
-const SelectById = (userId) => {
+const selectById = (userId) => {
     return db.query('select * from users where id = ?', [userId])
 }
-//crear un nnuevo usuario en la base de datos
-const insert = ({ name, surname, email, role, department, contracted_hours, is_active }) => {
-
-    return db.query('insert into users (name, surname, email, role, department, contracted_hours, is_active )  values (?, ?, ?, ?, ?, ?, ?)',
-        [name, surname, email, role, department, contracted_hours, is_active]);
+const selectByEmail = (email) => {
+    return db.query('select * from users where email = ?', [email])
 }
+//crear un nnuevo usuario en la base de datos
+
 //prueba
 /* const insert = ({ name, surname, email, password, role, department, contracted_hours, is_active }) => {
 
     return db.query('insert into users (name, surname, email, password, role, department, contracted_hours, is_active )  values (?, ?, ?, ?, ?, ?, ?, ?)',
         [name, surname, email, password, role, department, contracted_hours, is_active]);
 } */
+const insert = ({ name, surname, email, password, role, department, contracted_hours }) => {
+
+    return db.query('insert into users (name, surname, email, password, role, department, contracted_hours )  values ( ?, ?, ?, ?, ?, ?, ?)',
+        [name, surname, email, password, role, department, contracted_hours]);
+}
 
 //actualizar usuario
 const updateById = (userId, { name, surname, email, role, department, contracted_hours, is_active }) => {
@@ -32,7 +36,8 @@ const deleteId = (userId) => {
 
 module.exports = {
     selectAll,
-    SelectById,
+    selectById,
+    selectByEmail,
     insert,
     updateById,
     deleteId
