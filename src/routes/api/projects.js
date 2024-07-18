@@ -3,18 +3,19 @@ const router = require("express").Router();
 
 // Requests
 
-// GET
-router.get("/", getProjects);
-router.get("/:ProjectId", getById);
-router.get("/user-projects/:userId", getByUserId);
+// // GET
+// router.get("/", getProjects);
+// router.get("/:ProjectId", getById);
+// router.get("/user-projects/:userId", getByUserId);
+// router.get("/department/:department", getByDepartment);
 
-// POST
-router.post("/new", createProject);
+// // POST
+// router.post("/new", createProject);
 
-// PUT
-router.put("/edit/:projectId", updateProject);
+// // PUT
+// router.put("/edit/:projectId", updateProject);
 
-// DELETE
-router.delete("/:projectId", deleteProject);
+// // DELETE
+// router.delete("/:projectId", deleteProject);
 
 module.exports = router;
