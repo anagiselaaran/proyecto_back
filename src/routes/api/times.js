@@ -1,7 +1,7 @@
 // External imports
 const router = require("express").Router();
 // Internal imports
-const { getByUserId, createTime,  } = require("../../controllers/time.controller");
+const { getByUserId, getByDay, createTime } = require("../../controllers/time.controller");
 
 // Requests
 

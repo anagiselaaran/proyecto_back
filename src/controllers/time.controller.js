@@ -5,6 +5,19 @@ const getByUserId = async (req, res, next) => {
 
     try {
         const timeList = await Time.selectByUserId(userId);
+        console.log(timeList);
+        res.json(timeList);
+    } catch (error) {
+        next(error);
+    }
+};
+
+const getByDay = async (req, res, next) => {
+    const { userId, day } = req.params;
+
+    try {
+        const timeList = await Time.selectByDay(userId, day);
+        console.log(timeList);
         res.json(timeList);
     } catch (error) {
         next(error);
@@ -17,6 +30,7 @@ const updateByUserIdAndDate = async (req, res, next) => {
 
     try {
         const time = await Time.updateByUserIdAndDate(userId, workHours, date);
+        console.log(time);
         res.json(time);
     } catch (error) {
         next(error);
@@ -29,6 +43,7 @@ const createTime = async (req, res, next) => {
 
     try {
         const time = await Time.insertEntry(userId, workHours, date);
+        console.log(time);
         res.json(time);
     } catch (error) {
         next(error);
@@ -36,6 +51,7 @@ const createTime = async (req, res, next) => {
 };
 module.exports = {
     getByUserId,
+    getByDay,
     createTime,
     updateByUserIdAndDate,
 };

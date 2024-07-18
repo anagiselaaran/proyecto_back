@@ -60,7 +60,7 @@ const deleteById = userId => {
 module.exports = {
     selectByUserId,
     selectByDay,
-    selectByMonth,
+    // selectByMonth,
     selectByPeriod,
     insertEntry,
     updateByUserIdAndDate,
