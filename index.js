@@ -8,6 +8,9 @@ require("dotenv").config();
 // DB connection
 require("./src/config/db");
 
+//config base de datos
+require('./src/config/db');
+
 // Server creation
 const server = http.createServer(app);
 

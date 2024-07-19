@@ -1,21 +1,13 @@
-// External imports
-const router = require("express").Router();
+const router = require('express').Router();
+const { getProjects, getById, getByDepartment, getByActive, createProject, deleteProject } = require('../../controllers/projects.controller');
 
-// Requests
+router.get('/', getProjects);
+router.get('/department/:department', getByDepartment);
+router.get('/active/:active', getByActive);
+router.get('/:projectId', getById);
 
-// // GET
-// router.get("/", getProjects);
-// router.get("/:ProjectId", getById);
-// router.get("/user-projects/:userId", getByUserId);
-// router.get("/department/:department", getByDepartment);
+router.post('/new', createProject);
 
-// // POST
-// router.post("/new", createProject);
-
-// // PUT
-// router.put("/edit/:projectId", updateProject);
-
-// // DELETE
-// router.delete("/:projectId", deleteProject);
+router.delete('/:projectId', deleteProject);
 
 module.exports = router;
