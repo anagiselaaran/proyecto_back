@@ -13,10 +13,10 @@ const SelectById = (userId) => {
         [name, surname, email, role, department, contracted_hours, is_active]);
 } */
 //prueba
-const insert = ({ name, surname, email, password, role, department, contracted_hours, is_active }) => {
+const insert = ({ name, surname, email, password, department, contracted_hours }) => {
 
-    return db.query('insert into users (name, surname, email, password, role, department, contracted_hours, is_active )  values (?, ?, ?, ?, ?, ?, ?, ?)',
-        [name, surname, email, password, role, department, contracted_hours, is_active]);
+    return db.query('insert into users (name, surname, email, password, department, contracted_hours )  values (?, ?, ?, ?, ?, ?)',
+        [name, surname, email, password, department, contracted_hours]);
 }
 
 

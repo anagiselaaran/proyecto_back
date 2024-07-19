@@ -9,7 +9,7 @@ router.post('/new', createUser);
 
 router.put('/edit/:userId', updateUser);
 
-/* router.delete('/:userid', deleteUser); */
+// router.delete('/:userId', deleteUser);
 
 
 
