@@ -29,6 +29,10 @@ const updateById = (userId, { name, surname, email, role, department, contracted
     return db.query('update users set name = ?, surname = ?, email = ?, role = ?, department = ?, contracted_hours =?, is_active = ? where id =?',
         [name, surname, email, role, department, contracted_hours, is_active, userId]);
 }
+const updateByIdPassword = ( newPassword, userId) => {
+    return db.query('update users set password = ? where id =?',
+        [newPassword, userId]);
+}
 //borrar usuario
 const deleteId = (userId) => {
     return db.query('delete from users where id = ?', [userId])
@@ -40,5 +44,6 @@ module.exports = {
     selectByEmail,
     insert,
     updateById,
+    updateByIdPassword,
     deleteId
 }
