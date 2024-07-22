@@ -4,16 +4,16 @@ const { checkToken, checkUserByEmail } = require('../../utils/middlewares');
 const router = require('express').Router();
 
 
-router.get('/', getUsers);
+router.get('/', checkToken, getUsers);
 
-router.post('/new', checkUserByEmail, createUser);
+router.post('/new', checkToken, checkUserByEmail, createUser);
 router.post('/login', login);
 
-router.put('/edit/:userId', updateUser);
+router.put('/edit/:userId', checkToken, updateUser);
 // middleware
 router.put('/profile/edit/:userId', checkToken, updatePassword);
 
-router.delete('/:userId', deleteUser);
+router.delete('/:userId', checkToken, deleteUser);
 
 
 
