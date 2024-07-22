@@ -9,7 +9,7 @@ const createToken = (user) => {
     return jwt.sign(obj, process.env.SECRET_KEY)
 }
 
-
+//nodemailer
 
 
 module.exports = {
