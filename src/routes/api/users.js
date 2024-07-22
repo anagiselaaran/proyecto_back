@@ -11,7 +11,7 @@ router.post('/login', login);
 
 router.put('/edit/:userId', updateUser);
 // middleware
-router.put('/profile/edit', checkToken, updatePassword);
+router.put('/profile/edit/:userId', checkToken, updatePassword);
 
 router.delete('/:userId', deleteUser);
 
