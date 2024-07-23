@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user.model');
+const Project = require('../models/projects.model');
 const {createToken} = require('../utils/helpers')
 //peticion para obtener todos los usuarios
 const getUsers = async (req, res) => {
@@ -89,7 +90,7 @@ const updatePassword = async (req, res) => {
         res.status(500).json({ message: error.message })
         }
 }
-//peticion para conseguir todos los proyectos en los que este dado de alta un usuario
+//peticion para conseguir todos los proyectos en los que este dado de alta un usuario NO ESTA TERMINADO
 const getProjectsByUserId = async (req, res) => {
     try {
         const { userId } = req.params;
