@@ -5,11 +5,14 @@ const User = require ('../models/user.model')
 // crear middleware
 const checkToken = async (req, res, next) => {
     //comprobamos si tiene token
+    console.log(req.headers['authorization'])
+
     if (!req.headers['authorization']) {
         return res.status(403).json({ message: 'No tiene token' });
     }
     //sacamos el token
     const token = req.headers['authorization'];
+
     // variable para almacenar los datos del token
     let obj;
     console.log(token)
@@ -23,6 +26,7 @@ const checkToken = async (req, res, next) => {
     }
     const [users] = await User.selectById(obj.userId);
     req.user = users[0];
+
     next();
 }
 //checkUserId
