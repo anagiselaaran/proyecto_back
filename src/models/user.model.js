@@ -23,6 +23,10 @@ const insert = ({ name, surname, email, password, role, department, contracted_h
         [name, surname, email, password, role, department, contracted_hours]);
 }
 
+const getProjectsByUser = (userId) => {
+    return db.query('select projects.id, projects.name, users_has_projects.hours_by_projects, users_has_projects.date from users_has_projects join projects ON users_has_projects.id_project = projects.id where users_has_projects.id_user = ? ', [userId])
+}
+
 //actualizar usuario
 const updateById = (userId, { name, surname, email, role, department, contracted_hours, is_active }) => {
     return db.query('update users set name = ?, surname = ?, email = ?, role = ?, department = ?, contracted_hours =?, is_active = ? where id =?',
@@ -42,6 +46,7 @@ module.exports = {
     selectById,
     selectByEmail,
     insert,
+    getProjectsByUser,
     updateById,
     updateByIdPassword,
     deleteId

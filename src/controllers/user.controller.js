@@ -89,7 +89,16 @@ const updatePassword = async (req, res) => {
         res.status(500).json({ message: error.message })
         }
 }
-
+//peticion para conseguir todos los proyectos en los que este dado de alta un usuario
+const getProjectsByUserId = async (req, res) => {
+    try {
+        const { userId } = req.params;
+        const [projects] = await Project.getByUserId(userId);
+        res.json(projects);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
 //peticion para borrar un usuario
 const deleteUser = async (req, res) => {
     const { userId } = req.params;
@@ -109,5 +118,6 @@ module.exports = {
     login,
     updateUser,
     updatePassword,
+    getProjectsByUserId,
     deleteUser
 };
