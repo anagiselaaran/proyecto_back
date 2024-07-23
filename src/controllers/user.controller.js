@@ -16,7 +16,7 @@ const getUsers = async (req, res) => {
 //peticion para crear usuario
 const createUser = async (req, res) => {
     try {
-        // bcrypt 
+        // bcrypt
         // ver si se hashea la password o se envia y en el envio se hashea
         req.body.password = bcrypt.hashSync(req.body.password, 10);
         const [send] = await User.insert(req.body);
@@ -30,7 +30,7 @@ const createUser = async (req, res) => {
 const getUserById = async (req, res) => {
     const { userId } = req.params;
     try {
-        const [user] = await User.selectById(userId)  
+        const [user] = await User.selectById(userId)
         res.json(user[0])
     } catch (error) {
         res.status(500).json({ message: error.message })
@@ -50,7 +50,7 @@ const login = async (req, res) => {
     if (!verify) {
        return res.status(404).json({ message: 'Error  Email/Password' })
     }
-     
+
     res.json({
         message: 'Correct Login, Welcome',
         token: createToken(user)
@@ -79,7 +79,7 @@ const updatePassword = async (req, res) => {
     if (!verify) {
         return res.status(404).json({ message: 'Error  Password' })
     }
-  
+
     try {
         hashedNewPassword = bcrypt.hashSync(req.body.newPassword, 10)
         console.log(hashedNewPassword)
