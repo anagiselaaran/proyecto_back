@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user.model');
+const Project = require('../models/projects.model');
 const {createToken} = require('../utils/helpers')
 //peticion para obtener todos los usuarios
 const getUsers = async (req, res) => {
@@ -16,10 +17,21 @@ const getUsers = async (req, res) => {
 const createUser = async (req, res) => {
     try {
         // bcrypt 
+        // ver si se hashea la password o se envia y en el envio se hashea
         req.body.password = bcrypt.hashSync(req.body.password, 10);
         const [send] = await User.insert(req.body);
         const [users] = await User.selectById(send.insertId)
         res.json(users[0]);
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+
+    }
+}
+const getUserById = async (req, res) => {
+    const { userId } = req.params;
+    try {
+        const [user] = await User.selectById(userId)  
+        res.json(user[0])
     } catch (error) {
         res.status(500).json({ message: error.message })
 
@@ -58,24 +70,36 @@ const updateUser = async (req, res) => {
     }
 }
 const updatePassword = async (req, res) => {
-    const { oldPassword, newPassword, newRepPassword } = req.body;
-    console.log('estamos aqui',req.user)
+    console.log("aqui estamos")
+
     const userData = req.user;
-    const verify = bcrypt.compareSync(oldPassword, userData.password)
+    console.log( req.body, req.user)
+    const verify = bcrypt.compareSync(req.body.oldPassword, userData.password)
+
     if (!verify) {
         return res.status(404).json({ message: 'Error  Password' })
     }
-    if (newPassword !== newRepPassword) {
-        return res.status(404).json({ message: 'Error not the same Password ' })
-    }   
+  
     try {
-        await User.updateByIdPassword(userData.id,  newPassword );
+        hashedNewPassword = bcrypt.hashSync(req.body.newPassword, 10)
+        console.log(hashedNewPassword)
+        const result = await User.updateByIdPassword(hashedNewPassword, userData.id );
+        console.log("aqui estoy", result)
         res.json({ message: 'Password updated' })
     } catch (error) {
         res.status(500).json({ message: error.message })
         }
 }
-
+//peticion para conseguir todos los proyectos en los que este dado de alta un usuario NO ESTA TERMINADO
+const getProjectsByUserId = async (req, res) => {
+    try {
+        const { userId } = req.params;
+        const [projects] = await Project.getByUserId(userId);
+        res.json(projects);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
 //peticion para borrar un usuario
 const deleteUser = async (req, res) => {
     const { userId } = req.params;
@@ -91,8 +115,10 @@ const deleteUser = async (req, res) => {
 module.exports = {
     getUsers,
     createUser,
+    getUserById,
     login,
     updateUser,
     updatePassword,
+    getProjectsByUserId,
     deleteUser
 };
