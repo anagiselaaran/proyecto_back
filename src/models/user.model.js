@@ -10,7 +10,7 @@ const selectById = (userId) => {
 const selectByEmail = (email) => {
     return db.query('select * from users where email = ?',[email])
 }
-//crear un nnuevo usuario en la base de datos
+//crear un nuevo usuario en la base de datos
 /* const insert = ({ name, surname, email, role, department, contracted_hours, is_active }) => {
 
     return db.query('insert into users (name, surname, email, role, department, contracted_hours, is_active )  values (?, ?, ?, ?, ?, ?, ?)',
@@ -23,8 +23,14 @@ const insert = ({ name, surname, email, password, role, department, contracted_h
         [name, surname, email, password, role, department, contracted_hours]);
 }
 
-const getProjectsByUser = (userId) => {
-    return db.query('select projects.id, projects.name, users_has_projects.hours_by_projects, users_has_projects.date from users_has_projects join projects ON users_has_projects.id_project = projects.id where users_has_projects.id_user = ? ', [userId])
+const selectByUserId = (userId) => {
+    return db.query(`
+        SELECT p.id, p.name, uhp.hours_by_project as "project_work_hours", uhp.date as "start_date"
+        FROM projects as p, users_has_projects as uhp
+        WHERE uhp.id_project = p.id AND uhp.id_user = ?`, [userId]
+    )
+    // TODO: Talk to Luis about this query, column names and function name (Corrected, had a typo on hours_by_project)
+
 }
 
 //actualizar usuario
@@ -46,7 +52,7 @@ module.exports = {
     selectById,
     selectByEmail,
     insert,
-    getProjectsByUser,
+    selectByUserId,
     updateById,
     updateByIdPassword,
     deleteId

@@ -43,6 +43,7 @@ const login = async (req, res) => {
     const [users] = await User.selectByEmail(email);
     //comprobamos si el email existe en nuestra base de datos
     if (users === 0) {
+        // TODO: Check with Luis if should be users.length === 0
        return res.status(404).json({ message: 'Error  Email/Password' })
     }
     const user = users[0]
@@ -53,7 +54,9 @@ const login = async (req, res) => {
 
     res.json({
         message: 'Correct Login, Welcome',
-        token: createToken(user)
+        token: createToken(user),
+        // TODO: Discuss this addition with team
+        id: user.id
     })
 }
 
@@ -91,10 +94,11 @@ const updatePassword = async (req, res) => {
         }
 }
 //peticion para conseguir todos los proyectos en los que este dado de alta un usuario NO ESTA TERMINADO
+//TODO: WORKS!
 const getProjectsByUserId = async (req, res) => {
     try {
         const { userId } = req.params;
-        const [projects] = await Project.getByUserId(userId);
+        const [projects] = await User.selectByUserId(userId);
         res.json(projects);
     } catch (error) {
         res.status(500).json({ message: error.message });
