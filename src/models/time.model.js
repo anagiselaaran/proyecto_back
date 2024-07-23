@@ -1,3 +1,10 @@
+const selectAll = () => {
+    return db.query(
+        `SELECT *
+            FROM time`
+    );
+};
+
 const selectById = id => {
     return db.query(
         `SELECT *
@@ -16,7 +23,7 @@ const selectByUserId = id_user => {
     );
 };
 
-const selectByDay = date => {
+const selectByDate = date => {
     return db.query(
         `SELECT *
             FROM time
@@ -34,7 +41,16 @@ const selectByUserIdAndDate = (id_user, date) => {
     );
 };
 
-const selectByPeriod = (id_user, start, end) => {
+const selectByPeriod = (start, end) => {
+    return db.query(
+        `SELECT *
+            FROM time
+                WHERE date BETWEEN ? AND ?`,
+        [start, end]
+    );
+};
+
+const selectByUserIdAndPeriod = (id_user, start, end) => {
     return db.query(
         `SELECT *
             FROM time
@@ -59,21 +75,23 @@ const updateByUserIdAndDate = (work_hours_ms, id_user, date) => {
     );
 };
 
-const deleteById = id_user => {
+const removeByUserIdAndDate = (id_user, date) => {
     return db.query(
         `DELETE FROM time
-            WHERE id_user = ?`,
-        [id_user]
+            WHERE id_user = ? AND date = ?`,
+        [id_user, date]
     );
 };
 
 module.exports = {
+    selectAll,
     selectById,
     selectByUserId,
     selectByUserIdAndDate,
-    selectByDay,
+    selectByDate,
     selectByPeriod,
+    selectByUserIdAndPeriod,
     insertEntry,
     updateByUserIdAndDate,
-    deleteById,
+    removeByUserIdAndDate,
 };
