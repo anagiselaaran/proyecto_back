@@ -1,12 +1,8 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user.model');
-<<<<<<< HEAD
-const { createToken } = require('../utils/helpers')
-=======
 const Project = require('../models/projects.model');
-const {createToken} = require('../utils/helpers')
->>>>>>> f56986af26588f03591a8f9258e3864236d02923
+const { createToken } = require('../utils/helpers')
 //peticion para obtener todos los usuarios
 const getUsers = async (req, res) => {
 
@@ -86,34 +82,21 @@ const updateUser = async (req, res) => {
     }
 }
 const updatePassword = async (req, res) => {
-<<<<<<< HEAD
-    const { oldPassword, newPassword, newRepPassword } = req.body;
-    console.log('estamos aqui', req.user)
-=======
     console.log("aqui estamos")
 
->>>>>>> f56986af26588f03591a8f9258e3864236d02923
     const userData = req.user;
-    console.log( req.body, req.user)
+    console.log(req.body, req.user)
     const verify = bcrypt.compareSync(req.body.oldPassword, userData.password)
 
     if (!verify) {
         return res.status(404).json({ message: 'Error  Password' })
     }
-<<<<<<< HEAD
-    if (newPassword !== newRepPassword) {
-        return res.status(404).json({ message: 'Error not the same Password ' })
-    }
-    try {
-        await User.updateByIdPassword(userData.id, newPassword);
-=======
 
     try {
         hashedNewPassword = bcrypt.hashSync(req.body.newPassword, 10)
         console.log(hashedNewPassword)
-        const result = await User.updateByIdPassword(hashedNewPassword, userData.id );
+        const result = await User.updateByIdPassword(hashedNewPassword, userData.id);
         console.log("aqui estoy", result)
->>>>>>> f56986af26588f03591a8f9258e3864236d02923
         res.json({ message: 'Password updated' })
     } catch (error) {
         res.status(500).json({ message: error.message })

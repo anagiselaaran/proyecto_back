@@ -1,16 +1,9 @@
+
+//obtener los usuarios por proyecto
 const getUsersByProject = (projectId) => {
-    return db.query(`
-       select from * projects.id AS projectId,
-            users.id AS userId,
-            users.name AS userName,
-            users.status AS userStatus,
-            users.department AS userDepartment,
-            users.email AS userEmail
-        FROM projects
-        INNER JOIN users_has_projects ON projects.id = users_has_projects.project_id
-        INNER JOIN users ON users_has_projects.user_id = users.id
-        WHERE projects.id = ?
-    `, [projectId]);
+    return db.query(
+        `select users.id, users.name, users.email, users.status from users join users_has_projects on users.id = users_has_projects.user_id where users_has_projects.project_id = ?`, [projectId]
+    );
 }
 
 //seleccionar todos los usuarios
