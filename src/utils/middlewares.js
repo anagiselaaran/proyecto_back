@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const User = require ('../models/user.model')
+const User = require('../models/user.model')
 
 //checkToken
 // crear middleware
@@ -34,9 +34,9 @@ const checkUserByEmail = async (req, res, next) => {
     const { email } = req.body;
     const [users] = await User.selectByEmail(email);
     if (users.length !== 0) {
-        
+
         return res.status(403).json({ message: ' el Email ya existe en la base de datos.  ' });
-        
+
     }
     next();
 }

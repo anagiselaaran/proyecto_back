@@ -25,7 +25,6 @@ const selectByEmail = (email) => {
 } */
 //prueba
 const insert = ({ name, surname, email, password, role, department, contracted_hours }) => {
-
     return db.query('insert into users (name, surname, email, password, role, department, contracted_hours )  values ( ?, ?, ?, ?, ?, ?, ?)',
         [name, surname, email, password, role, department, contracted_hours]);
 }

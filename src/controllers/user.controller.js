@@ -30,10 +30,13 @@ const createUser = async (req, res) => {
     try {
         // bcrypt
         // ver si se hashea la password o se envia y en el envio se hashea
-        req.body.password = bcrypt.hashSync(req.body.password, 10);
+
+        req.body.password = bcrypt.hashSync(req.body.email, 10);
         const [send] = await User.insert(req.body);
+        console.log(send);
         const [users] = await User.selectById(send.insertId)
         res.json(users[0]);
+
     } catch (error) {
         res.status(500).json({ message: error.message })
 
