@@ -48,6 +48,7 @@ const createUser = async (req, res) => {
     }
 }
 const getUserById = async (req, res) => {
+    // TODO: Change userId from params to req.user.id
     const { userId } = req.params;
     try {
         const [user] = await User.selectById(userId)
@@ -61,26 +62,33 @@ const getUserById = async (req, res) => {
 const login = async (req, res) => {
     const { email, password } = req.body;
     const [users] = await User.selectByEmail(email);
-    //comprobamos si el email existe en nuestra base de datos
-    if (users === 0) {
-        return res.status(404).json({ message: 'Error  Email/Password' })
-    }
-    const user = users[0]
-    const verify = bcrypt.compareSync(password, user.password);
-    if (!verify) {
-        return res.status(404).json({ message: 'Error  Email/Password' })
-    }
+    // TODO: Test error return when token exists and click login button
+    try {
+        //comprobamos si el email existe en nuestra base de datos
+        if (users === 0) {
+            // TODO: Test return for users. Fix if
+            return res.status(404).json({ message: 'Error  Email/Password' })
+        }
+        const user = users[0]
+        const verify = bcrypt.compareSync(password, user.password);
+        if (!verify) {
+            return res.status(404).json({ message: 'Error  Email/Password' })
+        }
 
-    res.json({
-        message: 'Correct Login, Welcome',
-        token: createToken(user)
-    })
+        res.json({
+            message: 'Correct Login, Welcome',
+            token: createToken(user),
+        })
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 //peticion para actualizar datos del usuario
 const updateUser = async (req, res) => {
-    const { userId } = req.params;
+    // TODO: Test method after route change
     try {
+        const userId = req.user.id
         await User.updateById(userId, req.body);
         const [user] = await User.selectById(userId);
         res.json(user[0]);
@@ -91,7 +99,7 @@ const updateUser = async (req, res) => {
 }
 const updatePassword = async (req, res) => {
     console.log("aqui estamos")
-
+    // TODO: Test method after route change
     const userData = req.user;
     console.log(req.body, req.user)
     const verify = bcrypt.compareSync(req.body.oldPassword, userData.password)
@@ -113,8 +121,7 @@ const updatePassword = async (req, res) => {
 //peticion para conseguir todos los proyectos en los que este dado de alta un usuario NO ESTA TERMINADO
 const getProjectsByUserId = async (req, res) => {
     try {
-        const { userId } = req.params;
-        const [projects] = await Project.getByUserId(userId);
+        const [projects] = await User.selectByUserId(req.user.id);
         res.json(projects);
     } catch (error) {
         res.status(500).json({ message: error.message });
