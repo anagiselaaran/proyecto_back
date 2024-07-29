@@ -18,12 +18,17 @@ const getUsersByProject = async (req, res) => {
     const { projectId } = req.params;
 
     try {
-        const [users] = await User.getUsersByProject(projectId);
+        const [users] = await User.selectUsersByProject(projectId); //Destructuring//
+        console.log(users);
         res.json(users);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
 };
+
+
+
+
 
 //peticion para crear usuario
 const createUser = async (req, res) => {

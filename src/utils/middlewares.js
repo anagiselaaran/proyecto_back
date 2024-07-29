@@ -26,7 +26,6 @@ const checkToken = async (req, res, next) => {
     }
     const [users] = await User.selectById(obj.userId);
     req.user = users[0];
-
     next();
 }
 //checkUserId

@@ -1,8 +1,8 @@
 
 //obtener los usuarios por proyecto
-const getUsersByProject = (projectId) => {
+const selectUsersByProject = (projectId) => {
     return db.query(
-        `select users.id, users.name, users.email, users.status from users join users_has_projects on users.id = users_has_projects.user_id where users_has_projects.project_id = ?`, [projectId]
+        `select users.id, users.name, users.surname, users.email, users.department, users.role, users.is_active from users JOIN users_has_projects ON users.id = users_has_projects.id_user where users_has_projects.id_project = ?`, [projectId]
     );
 }
 
@@ -48,7 +48,7 @@ const deleteId = (userId) => {
 }
 
 module.exports = {
-    getUsersByProject,
+    selectUsersByProject,
     selectAll,
     selectById,
     selectByEmail,
