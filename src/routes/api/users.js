@@ -1,4 +1,4 @@
-const { getUsers, createUser, updateUser, deleteUser, login, updatePassword, getUserById, getProjectsByUserId } = require('../../controllers/user.controller');
+const { getUsers, createUser, updateUser, deleteUser, login, updatePassword, getUserById, getProjectsByUserId, getByName } = require('../../controllers/user.controller');
 const { checkToken, checkUserByEmail } = require('../../utils/middlewares');
 
 const router = require('express').Router();
@@ -6,7 +6,8 @@ const router = require('express').Router();
 
 router.get('/', checkToken, getUsers);
 router.get('/:userId', getUserById)
-router.get('/projects/:userId',getProjectsByUserId)
+router.get('/projects/:userId', getProjectsByUserId)
+router.get('/name/:name', getByName)
 
 router.post('/new', checkToken, checkUserByEmail, createUser);
 router.post('/login', login);

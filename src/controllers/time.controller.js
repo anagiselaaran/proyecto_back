@@ -4,9 +4,6 @@ const getAll = async (req, res, next) => {
     try {
         const [timeList] = await Time.selectAll();
 
-        if (timeList.length === 0) {
-            return res.status(404).json({ message: "No time logs available." });
-        }
 
         res.json(timeList);
     } catch (error) {
@@ -20,9 +17,6 @@ const getByUserId = async (req, res, next) => {
     try {
         const [timeList] = await Time.selectByUserId(userId);
 
-        if (timeList.length === 0) {
-            return res.status(404).json({ message: "No time logs available." });
-        }
 
         res.json(timeList);
     } catch (error) {
@@ -36,10 +30,6 @@ const getByDate = async (req, res, next) => {
     try {
         const [timeList] = await Time.selectByDate(date);
 
-        if (timeList.length === 0) {
-            return res.status(404).json({ message: "No time logs available." });
-        }
-
         res.json(timeList);
     } catch (error) {
         next(error);
@@ -52,9 +42,6 @@ const getByUserIdAndDate = async (req, res, next) => {
     try {
         const [timeList] = await Time.selectByUserIdAndDate(userId, date);
 
-        if (timeList.length === 0) {
-            return res.status(404).json({ message: "No time logs available." });
-        }
 
         res.json(timeList);
     } catch (error) {
@@ -67,10 +54,6 @@ const getByPeriod = async (req, res, next) => {
     try {
         const [timeList] = await Time.selectByPeriod(start, end);
 
-        if (timeList.length === 0) {
-            return res.status(404).json({ message: "No time logs available." });
-        }
-
         res.json(timeList);
     } catch (error) {
         next(error);
@@ -81,10 +64,6 @@ const getByUserIdAndPeriod = async (req, res, next) => {
     const { start, end, userId } = req.params;
     try {
         const [timeList] = await Time.selectByUserIdAndPeriod(userId, start, end);
-
-        if (timeList.length === 0) {
-            return res.status(404).json({ message: "No time logs available." });
-        }
 
         res.json(timeList);
     } catch (error) {

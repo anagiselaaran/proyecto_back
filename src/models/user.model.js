@@ -7,6 +7,10 @@ const selectAll = () => {
 const selectById = (userId) => {
     return db.query('select * from users where id = ?', [userId])
 }
+
+const selectByName = (name) => {
+    return db.query("select * from users WHERE name like ? ",["%"+name+"%"])
+}
 const selectByEmail = (email) => {
     return db.query('select * from users where email = ?',[email])
 }
@@ -49,5 +53,6 @@ module.exports = {
     getProjectsByUser,
     updateById,
     updateByIdPassword,
-    deleteId
+    deleteId,
+    selectByName
 }

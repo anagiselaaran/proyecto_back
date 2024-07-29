@@ -37,6 +37,16 @@ const getUserById = async (req, res) => {
 
     }
 }
+const getByName = async (req, res) => {
+    const { name } = req.params
+   try {
+     const [user] = await User.selectByName(name)
+     res.json(user)
+   } catch (error) {
+       res.status(500).json({ message: error.message })
+   }
+  
+}
 
 const login = async (req, res) => {
     const { email, password } = req.body;
@@ -120,5 +130,6 @@ module.exports = {
     updateUser,
     updatePassword,
     getProjectsByUserId,
-    deleteUser
+    deleteUser,
+    getByName
 };

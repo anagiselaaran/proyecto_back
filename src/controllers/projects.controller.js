@@ -2,7 +2,7 @@ const Projects = require("../models/projects.model");
 
 const getProjects = async (req, res, next) => {
     try {
-        const projects = await Projects.selectAll();
+        const [projects] = await Projects.selectAll();
         res.json(projects);
     } catch (error) {
         next(error);
