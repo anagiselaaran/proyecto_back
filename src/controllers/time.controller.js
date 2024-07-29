@@ -4,10 +4,6 @@ const getAll = async (req, res, next) => {
     try {
         const [timeList] = await Time.selectAll();
 
-        if (timeList.length === 0) {
-            return res.status(404).json({ message: "No time logs available." });
-        }
-
         res.json(timeList);
     } catch (error) {
         next(error);
@@ -15,14 +11,8 @@ const getAll = async (req, res, next) => {
 };
 
 const getByUserId = async (req, res, next) => {
-    const { userId } = req.params;
-
     try {
-        const [timeList] = await Time.selectByUserId(userId);
-
-        if (timeList.length === 0) {
-            return res.status(404).json({ message: "No time logs available." });
-        }
+        const [timeList] = await Time.selectByUserId(req.user.id);
 
         res.json(timeList);
     } catch (error) {
@@ -36,10 +26,6 @@ const getByDate = async (req, res, next) => {
     try {
         const [timeList] = await Time.selectByDate(date);
 
-        if (timeList.length === 0) {
-            return res.status(404).json({ message: "No time logs available." });
-        }
-
         res.json(timeList);
     } catch (error) {
         next(error);
@@ -47,14 +33,10 @@ const getByDate = async (req, res, next) => {
 };
 
 const getByUserIdAndDate = async (req, res, next) => {
-    const { userId, date } = req.params;
+    const { date } = req.params;
 
     try {
-        const [timeList] = await Time.selectByUserIdAndDate(userId, date);
-
-        if (timeList.length === 0) {
-            return res.status(404).json({ message: "No time logs available." });
-        }
+        const [timeList] = await Time.selectByUserIdAndDate(req.user.id, date);
 
         res.json(timeList);
     } catch (error) {
@@ -67,10 +49,6 @@ const getByPeriod = async (req, res, next) => {
     try {
         const [timeList] = await Time.selectByPeriod(start, end);
 
-        if (timeList.length === 0) {
-            return res.status(404).json({ message: "No time logs available." });
-        }
-
         res.json(timeList);
     } catch (error) {
         next(error);
@@ -81,10 +59,6 @@ const getByUserIdAndPeriod = async (req, res, next) => {
     const { start, end, userId } = req.params;
     try {
         const [timeList] = await Time.selectByUserIdAndPeriod(userId, start, end);
-
-        if (timeList.length === 0) {
-            return res.status(404).json({ message: "No time logs available." });
-        }
 
         res.json(timeList);
     } catch (error) {
@@ -103,6 +77,17 @@ const createTime = async (req, res, next) => {
     }
 };
 
+const createProjectTime = async (req, res, next) => {
+    try {
+        const [time] = await Time.insertProjectEntry(req.body);
+        const [newInsert] = await Time.selectById(time.insertId);
+
+        res.json(...newInsert);
+    } catch (error) {
+        next(error);
+    }
+}
+
 const updateByUserIdAndDate = async (req, res, next) => {
     const { userId } = req.params;
     const { work_hours_ms, date } = req.body;
@@ -120,7 +105,9 @@ const updateByUserIdAndDate = async (req, res, next) => {
 };
 
 const deleteByUserIdAndDate = async (req, res, next) => {
-    const { userId, date } = req.params;
+    const { date } = req.params;
+    const { userId } = req.params;
+    console.log(req.user);
     try {
         const [timeList] = await Time.selectByUserIdAndDate(userId, date);
         await Time.removeByUserIdAndDate(userId, date);
@@ -142,6 +129,7 @@ module.exports = {
     getByPeriod,
     getByUserIdAndPeriod,
     createTime,
+    createProjectTime,
     updateByUserIdAndDate,
     deleteByUserIdAndDate,
 };
