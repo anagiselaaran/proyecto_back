@@ -10,7 +10,7 @@ router.get('/:projectId', getById);
 router.get('/user/active/:active', checkToken, getByUserIdAndActive);
 router.get('/user/department/:department', checkToken, getByUserIdAndDepartment);
 
-router.post('/new', createProject);
+router.post('/new', checkToken, createProject);
 
 router.delete('/:projectId', deleteProject);
 

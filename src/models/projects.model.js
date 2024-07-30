@@ -29,8 +29,8 @@ const isRecordInDatabase = (id_project, id_user) => {
         [id_project, id_user])
 }
 
-const createProject = ({ name, limit_date, department, created_at, is_active }) => {
-    return db.query('insert into projects(name,limit_date,department,created_at,is_active) values(?,?,?,?,?)', [name, limit_date, department, created_at, is_active]);
+const createProject = ({ name, limit_date, department, is_active }) => {
+    return db.query('insert into projects(name,limit_date,department,is_active) values(?,?,?,?)', [name, limit_date, department, is_active]);
 }
 
 const deleteProject = (projectId) => {
