@@ -50,6 +50,18 @@ const getProjectsByUser = (userId) => {
     return db.query('select projects.id, projects.name, projects.is_active, users_has_projects.hours_by_project, projects.limit_date , users_has_projects.date from users_has_projects join projects ON users_has_projects.id_project = projects.id where users_has_projects.id_user = ?', [userId]);
 }
 
+/* const weeklyTotals = () => {
+    return db.query('SELECT id_user, YEAR(date) AS year, WEEK(date, 1) AS week, SUM(work_hours_ms) / 3600000 AS total_weekly_hours FROM time GROUP BY id_user, year, week')
+}
+const dailyDetails = () => {
+    console.log('aqui2')
+    return db.query('  SELECT id_user, YEAR(date) AS year, MONTH(date) AS month, DAY(date) AS day, (DAYOFWEEK(date) + 5) % 7 + 1 AS day_of_week, WEEK(date, 1) AS week,  SUM(work_hours_ms) / 3600000 AS total_daily_hours FROM  time GROUP BY id_user,year,month,day,day_of_week,week')
+} */
+const getHoursWeekly = (userId, date) => {
+    console.log('aqui3 model', userId, date)
+    return db.query('SELECT users.id, DATE_ADD( ? , INTERVAL -WEEKDAY(?) DAY) AS week_start_date, SUM(time.work_hours_ms / 3600000) AS total_hours_weekly FROM users JOIN time ON users.id = time.id_user WHERE users.id = ? AND time.date BETWEEN DATE_ADD(?, INTERVAL -WEEKDAY( ? ) DAY) AND DATE_ADD(?, INTERVAL (6 - WEEKDAY(?)) DAY) GROUP BY users.id, users.name, DATE_ADD( ? , INTERVAL -WEEKDAY(?) DAY) ORDER BY week_start_date', [date, date, userId, date, date, date, date, date, date]);
+}
+
 //actualizar usuario
 const updateById = (userId, { name, surname, email, role, department, contracted_hours, is_active }) => {
     return db.query('update users set name = ?, surname = ?, email = ?, role = ?, department = ?, contracted_hours =?, is_active = ? where id =?',
@@ -78,6 +90,7 @@ module.exports = {
     selectById,
     selectByEmail,
     getHoursByProject,
+    getHoursWeekly,
     insert,
     selectByUserId,
     getProjectsByUser,

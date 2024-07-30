@@ -132,8 +132,6 @@ const getProjectsByUserId = async (req, res) => {
 
     try {   
         const [projects] = await User.getProjectsByUser(req.user.id);
-        console.log(projects)
-
         res.json(projects);
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -168,6 +166,7 @@ module.exports = {
     getUsersByProject,
     createUser,
     getUserById,
+    getWeeklyHours,
     login,
     updateUser,
     updatePassword,
