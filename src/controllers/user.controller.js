@@ -129,21 +129,16 @@ const updatePassword = async (req, res) => {
 }
 //peticion para conseguir todos los proyectos en los que este dado de alta un usuario 
 const getProjectsByUserId = async (req, res) => {
-<<<<<<< HEAD
-    try {
-        const [projects] = await User.selectByUserId(req.user.id);
-=======
 
-    console.log('aqui estoy', req.user)
     try {   
         const [projects] = await User.getProjectsByUser(req.user.id);
         console.log(projects)
->>>>>>> 6f31f92 (hacemos pull)
+
         res.json(projects);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
-};
+}
 //peticion para actualizar las horas de un usuario en un proyecto
 const updateHours = async (req, res) => {
     try {
