@@ -42,8 +42,11 @@ const selectByUserId = (userId) => {
         [userId]
     )
 }
+
+const getHoursByProject = (userId, projectId) => {
+    return db.query('select * from users_has_projects where id_user = ? and id_project = ?', [userId, projectId]);
+}
 const getProjectsByUser = (userId) => {
-    console.log('aqui')
     return db.query('select projects.id, projects.name, projects.is_active, users_has_projects.hours_by_project, projects.limit_date , users_has_projects.date from users_has_projects join projects ON users_has_projects.id_project = projects.id where users_has_projects.id_user = ?', [userId]);
 }
 
@@ -56,6 +59,14 @@ const updateByIdPassword = (newPassword, userId) => {
     return db.query('update users set password = ? where id =?',
         [newPassword, userId]);
 }
+//asignar horas a proyecto
+const updateHoursOfProject = (userId, projectId, hours) => {
+    return db.query(`UPDATE users_has_projects
+        SET hours_by_project = hours_by_project + ?
+        WHERE id_user = ? AND id_project = ?`,
+        [hours, userId, projectId]);
+}
+
 //borrar usuario
 const deleteId = (userId) => {
     return db.query('delete from users where id = ?', [userId])
@@ -66,10 +77,13 @@ module.exports = {
     selectAll,
     selectById,
     selectByEmail,
+    getHoursByProject,
     insert,
     selectByUserId,
+    getProjectsByUser,
     updateById,
     updateByIdPassword,
-    deleteId,
-    selectByName
+    selectByName,
+    updateHoursOfProject,
+    deleteId
 }

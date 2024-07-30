@@ -136,6 +136,18 @@ const getProjectsByUserId = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+//peticion para actualizar las horas de un usuario en un proyecto
+const updateHours = async (req, res) => {
+    try {
+        const userId = req.user.id;
+         await User.updateHoursOfProject(userId, req.body.projectId, req.body.hours);
+        const [response] = await User.getHoursByProject(userId, req.body.projectId)
+         res.json(response[0]); 
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+}
+    
 //peticion para borrar un usuario
 const deleteUser = async (req, res) => {
     const { userId } = req.params;
@@ -157,6 +169,7 @@ module.exports = {
     updateUser,
     updatePassword,
     getProjectsByUserId,
-    deleteUser,
-    getByName
+    getByName,
+    updateHours,
+    deleteUser
 };
