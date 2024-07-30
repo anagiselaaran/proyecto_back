@@ -47,7 +47,6 @@ const getHoursByProject = (userId, projectId) => {
     return db.query('select * from users_has_projects where id_user = ? and id_project = ?', [userId, projectId]);
 }
 const getProjectsByUser = (userId) => {
-    console.log('aqui')
     return db.query('select projects.id, projects.name, projects.is_active, users_has_projects.hours_by_project, projects.limit_date , users_has_projects.date from users_has_projects join projects ON users_has_projects.id_project = projects.id where users_has_projects.id_user = ?', [userId]);
 }
 
@@ -79,7 +78,6 @@ module.exports = {
     selectById,
     selectByEmail,
     getHoursByProject,
-    getHoursWeekly,
     insert,
     selectByUserId,
     getProjectsByUser,
