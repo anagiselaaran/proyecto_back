@@ -1,5 +1,5 @@
 const Time = require("../models/time.model");
-
+const Projects = require("../models/projects.model");
 const getAll = async (req, res, next) => {
     try {
         const [timeList] = await Time.selectAll();
@@ -78,15 +78,25 @@ const createTime = async (req, res, next) => {
 };
 
 const createProjectTime = async (req, res, next) => {
+    const [projectInDB] = await Projects.isRecordInDatabase(req.body.id_project, req.body.id_user);
     try {
-        const [time] = await Time.insertProjectEntry(req.body);
-        const [newInsert] = await Time.selectById(time.insertId);
+        if (projectInDB.length === 0) {
+            const [time] = await Time.insertProjectEntry(req.body);
+            const [newInsert] = await Projects.selectProjectHours(time.insertId);
 
-        res.json(...newInsert);
+            res.json(newInsert);
+            return;
+        }
+        
+        const totalHours = projectInDB[0].hours_by_project + req.body.hours_by_project;
+        await Time.updateProjectEntry(totalHours, projectInDB[0].id);
+        const [newInsert] = await Projects.selectProjectHours(projectInDB[0].id);
+
+        res.json(newInsert);
     } catch (error) {
         next(error);
     }
-}
+};
 
 const updateByUserIdAndDate = async (req, res, next) => {
     const { userId } = req.params;
