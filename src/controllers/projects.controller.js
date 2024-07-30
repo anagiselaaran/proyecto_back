@@ -63,6 +63,32 @@ const deleteProject = async (req, res, next) => {
     }
 };
 
+// TIMER PAGE - FILTER METHODS
+const getByUserIdAndActive = async (req, res, next) => {
+    const id_user = req.user.id;
+    const { active } = req.params;
+
+    try {
+        const [result] = await Projects.selectByUserIdAndActive(id_user, active);
+        res.json(result);
+    } catch (error) {
+        next(error);
+    }
+};
+
+const getByUserIdAndDepartment = async (req, res, next) => {
+    const id_user = req.user.id;
+    console.log(req.body);
+    const { department } = req.params;
+    try {
+        const [result] = await Projects.selectByUserIdAndDepartment(id_user, department);
+        console.log(result);
+        res.json(result);
+    } catch (error) {
+        next(error);
+    }
+};
+
 module.exports = {
     getProjects,
     getById,
@@ -70,4 +96,6 @@ module.exports = {
     getByActive,
     createProject,
     deleteProject,
+    getByUserIdAndActive,
+    getByUserIdAndDepartment,
 };

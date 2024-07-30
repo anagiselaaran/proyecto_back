@@ -75,9 +75,19 @@ const insertProjectEntry = ({ id_user, id_project, hours_by_project, date }) => 
     );
 };
 
+const updateProjectEntry = (hours_by_project, id) => {
+    return db.query(
+        `UPDATE users_has_projects
+            SET hours_by_project = ?
+            WHERE id = ?`,
+        [hours_by_project, id]
+    );
+};
+
 const updateByUserIdAndDate = (work_hours_ms, id_user, date) => {
     return db.query(
-        `UPDATE time SET work_hours_ms = ?
+        `UPDATE time
+            SET work_hours_ms = ?
             WHERE id_user = ? AND date = ?`,
         [work_hours_ms, id_user, date]
     );
@@ -101,6 +111,7 @@ module.exports = {
     selectByUserIdAndPeriod,
     insertEntry,
     insertProjectEntry,
+    updateProjectEntry,
     updateByUserIdAndDate,
     removeByUserIdAndDate,
 };

@@ -25,10 +25,11 @@ const insert = ({ name, surname, email, password, role, department, contracted_h
 
 const selectByUserId = (userId) => {
     return db.query(`
-        SELECT p.id, p.name, p.department, p.is_active, uhp.hours_by_project as "project_work_hours", uhp.date as "start_date"
+        SELECT p.id, p.name, p.department, p.is_active, uhp.hours_by_project as "project_work_hours", uhp.date
         FROM projects as p, users_has_projects as uhp
         WHERE uhp.id_project = p.id AND uhp.id_user = ?
-        ORDER BY uhp.date`, [userId]
+        ORDER BY p.name ASC, uhp.date ASC`,
+        [userId]
     )
 }
 
