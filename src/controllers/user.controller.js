@@ -121,14 +121,13 @@ const updatePassword = async (req, res) => {
     try {
         hashedNewPassword = bcrypt.hashSync(req.body.newPassword, 10)
         console.log(hashedNewPassword)
-        const result = await User.updateByIdPassword(hashedNewPassword, userData.id);
-        console.log("aqui estoy", result)
+        const result = await User.updateByIdPassword(hashedNewPassword, userData.id );
         res.json({ message: 'Password updated' })
     } catch (error) {
         res.status(500).json({ message: error.message })
     }
 }
-//peticion para conseguir todos los proyectos en los que este dado de alta un usuario NO ESTA TERMINADO
+//peticion para conseguir todos los proyectos en los que este dado de alta un usuario 
 const getProjectsByUserId = async (req, res) => {
     try {
         const [projects] = await User.selectByUserId(req.user.id);

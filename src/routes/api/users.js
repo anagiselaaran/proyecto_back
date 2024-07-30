@@ -7,8 +7,9 @@ const router = require('express').Router();
 router.get('/', checkToken, getUsers);
 router.get('/projects', checkToken, getProjectsByUserId)
 router.get('/:userId', getUserById)
-router.get('/projects/:userId', getProjectsByUserId)
-router.get('/name/:name', getByName)
+router.get('/projects', checkToken, getProjectsByUserId);
+/* router.get('/projects/:userId', getProjectsByUserId)
+ */router.get('/name/:name', getByName)
 
 router.get('/project_user/:projectId', checkToken, getUsersByProject)
 

@@ -42,6 +42,9 @@ const selectByUserId = (userId) => {
         [userId]
     )
 }
+const getProjectsByUser = (userId) => {
+    return db.query('select projects.id, projects.name, projects.is_active, users_has_projects.hours_by_project, projects.limit_date , users_has_projects.date from users_has_projects join projects ON users_has_projects.id_project = projects.id where users_has_projects.id_user = ?', [userId]);
+}
 
 //actualizar usuario
 const updateById = (userId, { name, surname, email, role, department, contracted_hours, is_active }) => {
