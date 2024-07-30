@@ -78,7 +78,6 @@ module.exports = {
     selectById,
     selectByEmail,
     getHoursByProject,
-    getHoursWeekly,
     insert,
     selectByUserId,
     getProjectsByUser,

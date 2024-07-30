@@ -166,7 +166,6 @@ module.exports = {
     getUsersByProject,
     createUser,
     getUserById,
-    getWeeklyHours,
     login,
     updateUser,
     updatePassword,
