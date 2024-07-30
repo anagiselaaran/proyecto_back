@@ -47,12 +47,7 @@ const getHoursByProject = (userId, projectId) => {
     return db.query('select * from users_has_projects where id_user = ? and id_project = ?', [userId, projectId]);
 }
 const getProjectsByUser = (userId) => {
-    return db.query('select projects.id, projects.name, projects.is_active, users_has_projects.hours_by_project, projects.limit_date , users_has_projects.date from users_has_projects join projects ON users_has_projects.id_project = projects.id where users_has_projects.id_user = ?', [userId]);
-}
-
-const getHoursWeekly = (userId, date) => {
-    console.log('aqui3 model', userId, date)
-    return db.query('SELECT users.id, DATE_ADD( ? , INTERVAL -WEEKDAY(?) DAY) AS week_start_date, SUM(time.work_hours_ms / 3600000) AS total_hours_weekly FROM users JOIN time ON users.id = time.id_user WHERE users.id = ? AND time.date BETWEEN DATE_ADD(?, INTERVAL -WEEKDAY( ? ) DAY) AND DATE_ADD(?, INTERVAL (6 - WEEKDAY(?)) DAY) GROUP BY users.id, users.name, DATE_ADD( ? , INTERVAL -WEEKDAY(?) DAY) ORDER BY week_start_date', [date, date, userId, date, date, date, date, date, date]);
+    return db.query('select projects.id, projects.name, projects.is_active, projects.department, users_has_projects.hours_by_project, projects.limit_date , users_has_projects.date from users_has_projects join projects ON users_has_projects.id_project = projects.id where users_has_projects.id_user = ?', [userId]);
 }
 
 //actualizar usuario
