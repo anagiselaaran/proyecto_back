@@ -16,7 +16,7 @@ const selectById = (userId) => {
 }
 
 const selectByName = (name) => {
-    return db.query("select * from users WHERE name like ? ",["%"+name+"%"])
+    return db.query("select * from users WHERE name like ? ", ["%" + name + "%"])
 }
 const selectByEmail = (email) => {
     return db.query('select * from users where email = ?', [email])
